@@ -1,24 +1,48 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* Force the 'Yes' button to stay orange on hover, focus, and active */
+.custom-delete-modal .ant-btn-dangerous,
+.custom-delete-modal .ant-btn-dangerous:focus,
+.custom-delete-modal .ant-btn-dangerous:active,
+.custom-delete-modal .ant-btn-dangerous:hover,
+.custom-delete-modal .ant-btn-dangerous:focus:hover {
+  background-color: #fa8c16 !important;
+  color: #fff !important;
+  border-color: #fa8c16 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove border color and outline ring from the 'Yes' (danger) button in the custom Ant Design modal - unified with always orange rule below */
+.App {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-@keyframes logo-spin {
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
@@ -27,16 +51,82 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Custom outline and hover for the "Yes" button: always orange */
+.custom-delete-modal .ant-btn-dangerous,
+.custom-delete-modal .ant-btn-dangerous:focus,
+.custom-delete-modal .ant-btn-dangerous:active,
+.custom-delete-modal .ant-btn-dangerous:hover {
+  background-color: #fa8c16 !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.card {
-  padding: 2em;
+/* Custom hover for the "No" button: just gray background */
+.custom-delete-modal .ant-btn-default:hover {
+  background: #f5f5f5 !important;
+  color: #000 !important;
+  border-color: #d9d9d9 !important;
 }
 
-.read-the-docs {
-  color: #888;
+.custom-cancel-btn.ant-btn {
+  background: #f5f5f5c7 !important;
+  color: #333 !important;
+  border: 1px solid #d9d9d9 !important;
+}
+.custom-cancel-btn.ant-btn:hover,
+.custom-cancel-btn.ant-btn:focus,
+.custom-cancel-btn.ant-btn:active,
+.custom-cancel-btn.ant-btn:focus-visible {
+  background: #e6e6e6d0 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 0 #ebe8e8c9 !important;
+  border-color: #bfbfbf !important;
+  color: #333 !important;
+}
+
+.ant-menu-item,
+.ant-menu-item-group-title,
+.ant-menu-submenu-title {
+  font-weight: normal !important;
+}
+
+:where(.ant-menu-item),
+:where(.ant-menu-item-group-title),
+:where(.ant-menu-submenu-title) {
+  font-weight: normal !important;
+}
+
+.ant-menu .ant-menu-item,
+.ant-menu .ant-menu-item-group-title,
+.ant-menu .ant-menu-submenu-title {
+  font-weight: normal !important;
+}
+
+/* Higher specificity override for ConfigProvider themed menus */
+.ant-app .ant-menu-item,
+.ant-app .ant-menu-item-group-title,
+.ant-app .ant-menu-submenu-title,
+div[data-theme] .ant-menu-item,
+div[data-theme] .ant-menu-item-group-title,
+div[data-theme] .ant-menu-submenu-title {
+  font-weight: normal !important;
+}
+
+/* Ultimate override - use body as root selector */
+body .ant-menu-item,
+body .ant-menu-item-group-title,
+body .ant-menu-submenu-title,
+body .ant-menu .ant-menu-item,
+body .ant-menu .ant-menu-item-group-title,
+body .ant-menu .ant-menu-submenu-title {
+  font-weight: normal !important;
+}
+
+/* Target specific menu text content */
+.ant-menu-title-content,
+.ant-menu-item .ant-menu-title-content,
+.ant-menu-item-group-title .ant-menu-title-content {
+  font-weight: normal !important;
 }
