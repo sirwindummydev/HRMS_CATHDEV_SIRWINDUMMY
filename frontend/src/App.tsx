@@ -4,6 +4,7 @@ import "./App.css";
 import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import { ThemeProvider } from "./context/ThemeContext";
+import MyAttendance from "./pages/employee_self_service/MyAttendance";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -21,7 +22,12 @@ function App() {
                 path="/dashboard"
                 element={<Navigate to="/dashboard/overview" replace />}
               />
+
               <Route path="/dashboard/overview" element={<Dashboard />} />
+              <Route
+                path="/employee-management/self-service/attendance"
+                element={<MyAttendance />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
