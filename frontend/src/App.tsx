@@ -5,6 +5,7 @@ import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import { ThemeProvider } from "./context/ThemeContext";
 import MyAttendance from "./pages/employee_self_service/MyAttendance";
+import HolidaysLayout from "./components/layout/HolidaysLayout";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,6 +28,11 @@ function App() {
               <Route
                 path="/employee-management/self-service/attendance"
                 element={<MyAttendance />}
+              />
+
+              <Route
+                path="/employee-management/self-service/holidays"
+                element={<HolidaysLayout />}
               />
             </Route>
           </Routes>

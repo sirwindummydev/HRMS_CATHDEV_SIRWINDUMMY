@@ -156,22 +156,24 @@ const MyAttendance: React.FC = () => {
   return (
     <div>
       {/* Attendance Table */}
-      <Card title="Recent Attendance Records">
-        <PageTable
-          columns={columns}
-          data={attendanceData}
-          actions={actions}
-          rowKey="id"
-          showActions={true}
-          pagination={{
-            pageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} records`,
-          }}
-        />
-      </Card>
+      <PageHeaderLayout
+        title="Attendance Records"
+        subtitle="View your recent attendance details"
+      ></PageHeaderLayout>
+      <PageTable
+        columns={columns}
+        data={attendanceData}
+        actions={actions}
+        rowKey="id"
+        showActions={true}
+        pagination={{
+          pageSize: 10,
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} of ${total} records`,
+        }}
+      />
     </div>
   );
 };

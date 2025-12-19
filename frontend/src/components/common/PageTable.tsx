@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Button, Space, Popconfirm, Tag } from "antd";
+import { Table, Button, Space, Popconfirm, Tag, Card } from "antd";
 import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import ActionButton from "./ActionButton";
@@ -183,16 +183,24 @@ const PageTable: React.FC<PageTableProps> = ({
   }
 
   return (
-    <Table
-      columns={antdColumns}
-      dataSource={data}
-      loading={loading}
-      pagination={pagination === true ? {} : pagination}
-      rowKey={rowKey}
-      size={size}
-      scroll={{ x: "max-content" }}
-      {...tableProps}
-    />
+    <div style={{ paddingLeft: 15, paddingRight: 15 }}>
+      {" "}
+      <Card
+        title="Recent Attendance Records"
+        style={{ paddingLeft: 15, paddingRight: 15 }}
+      >
+        <Table
+          columns={antdColumns}
+          dataSource={data}
+          loading={loading}
+          pagination={pagination === true ? {} : pagination}
+          rowKey={rowKey}
+          size={size}
+          scroll={{ x: "max-content" }}
+          {...tableProps}
+        />
+      </Card>{" "}
+    </div>
   );
 };
 
