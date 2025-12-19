@@ -5,127 +5,173 @@ import {
   ClockCircleTwoTone,
   ExclamationCircleOutlined,
   ThunderboltOutlined,
+  CoffeeOutlined,
+  HomeOutlined,
+  CloseCircleOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 import PageHeaderLayout from "../../components/layout/PageHeaderLayout";
 import SummaryCard from "../../components/layout/SummaryCard";
-import { Card, Row, Col, Table, Tag } from "antd";
+import PageTable from "../../components/common/PageTable";
+import type {
+  DynamicTableColumn,
+  TableAction,
+} from "../../components/common/PageTable";
+import { Card, Row, Col } from "antd";
 
 const MyAttendance: React.FC = () => {
   const handleClockIn = () => {
     console.log("Clock in clicked!");
-    // Add your clock in logic here
   };
 
-  // Sample data for demonstration
+  // Sample data (adjusted for new columns)
+
+  // Define columns using the dynamic table structure
+  const columns: DynamicTableColumn[] = [
+    {
+      key: "date",
+      title: "Date",
+      dataIndex: "date",
+      width: 120,
+      sortable: true,
+    },
+    {
+      key: "clockIn",
+      title: "Clock In",
+      dataIndex: "clockIn",
+      width: 120,
+      align: "center",
+    },
+    {
+      key: "clockOut",
+      title: "Clock Out",
+      dataIndex: "clockOut",
+      width: 120,
+      align: "center",
+    },
+
+    {
+      key: "attendanceType",
+      title: "Attendance Type",
+      dataIndex: "attendanceType",
+      width: 160,
+      align: "center",
+      filterable: true,
+      statusConfig: {
+        Office: { color: "#1677ff", label: "Office" },
+        "Official Business": { color: "#fa8c16", label: "Official Business" },
+      },
+    },
+
+    {
+      key: "hours",
+      title: "Hours Worked",
+      dataIndex: "hours",
+      width: 120,
+      align: "center",
+      render: (hours) => `${hours} hrs`,
+    },
+    {
+      key: "overtime",
+      title: "Overtime",
+      dataIndex: "overtime",
+      width: 120,
+      align: "center",
+      render: (overtime) => (overtime ? `${overtime} hrs` : "-"),
+    },
+    {
+      key: "status",
+      title: "Status",
+      dataIndex: "status",
+      width: 100,
+      filterable: true,
+      statusConfig: {
+        Present: { color: "green", label: "Present" },
+        Late: { color: "orange", label: "Late" },
+        Absent: { color: "red", label: "Absent" },
+        "Half Day": { color: "blue", label: "Half Day" },
+      },
+    },
+  ];
+
+  // Define actions for demonstration
+  const actions = [
+    {
+      type: "view" as const,
+      onClick: (record: any) => {
+        console.log("View attendance record:", record);
+      },
+    },
+    {
+      type: "edit" as const,
+      onClick: (record: any) => {
+        console.log("Edit attendance record:", record);
+      },
+      show: (record: any) => record.status !== "Absent", // Only show edit for non-absent records
+    },
+  ];
   const attendanceData = [
     {
-      key: "1",
+      id: 1,
       date: "2025-12-19",
       clockIn: "09:00 AM",
       clockOut: "05:00 PM",
       status: "Present",
       hours: "8.0",
+      overtime: "1.0",
+      attendanceType: "Office",
     },
     {
-      key: "2",
+      id: 2,
       date: "2025-12-18",
       clockIn: "09:15 AM",
       clockOut: "05:15 PM",
       status: "Present",
       hours: "8.0",
-    },
-  ];
-
-  const columns = [
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      overtime: "0.5",
+      attendanceType: "Official Business",
     },
     {
-      title: "Clock In",
-      dataIndex: "clockIn",
-      key: "clockIn",
+      id: 3,
+      date: "2025-12-17",
+      clockIn: "09:30 AM",
+      clockOut: "05:30 PM",
+      status: "Late",
+      hours: "8.0",
+      overtime: "0.0",
+      attendanceType: "Office",
     },
     {
-      title: "Clock Out",
-      dataIndex: "clockOut",
-      key: "clockOut",
-    },
-    {
-      title: "Hours",
-      dataIndex: "hours",
-      key: "hours",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status: string) => (
-        <Tag color={status === "Present" ? "green" : "red"}>{status}</Tag>
-      ),
+      id: 4,
+      date: "2025-12-16",
+      clockIn: "-",
+      clockOut: "-",
+      status: "Absent",
+      hours: "0.0",
+      overtime: null,
+      attendanceType: "Office",
     },
   ];
 
   return (
-    <div style={{ padding: 15 }}>
-      <PageHeaderLayout
-        title="My Attendance"
-        subtitle="Track your work hours and attendance records"
-        showAddButton={true}
-        addButtonLabel="Clock In"
-        addButtonIcon={<ClockCircleOutlined />}
-        onAddClick={handleClockIn}
-      >
-        {/* Attendance Statistics */}
-        <Row gutter={[16, 16]} style={{ marginBottom: "24px" }}>
-          <Col xs={24} sm={24} md={12} lg={6} xl={6} xxl={6}>
-            <SummaryCard
-              title="This Month"
-              value="20 days"
-              icon={<CalendarOutlined />}
-              color="#3f8600"
-              trend={{ value: 5, type: "up", label: "vs last month" }}
-            />
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={6} xl={6} xxl={6}>
-            <SummaryCard
-              title="Total Hours"
-              value="160 hrs"
-              icon={<ClockCircleTwoTone />}
-              color="#1677ff"
-              trend={{ value: 8, type: "up", label: "this month" }}
-            />
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={6} xl={6} xxl={6}>
-            <SummaryCard
-              title="Late Days"
-              value="2 days"
-              icon={<ExclamationCircleOutlined />}
-              color="#cf1322"
-              trend={{ value: -50, type: "down", label: "improvement" }}
-            />
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={6} xl={6} xxl={6}>
-            <SummaryCard
-              title="Overtime"
-              value="8 hrs"
-              icon={<ThunderboltOutlined />}
-              color="#722ed1"
-              trend={{ value: 12, type: "up", label: "this month" }}
-            />
-          </Col>
-        </Row>
-
-        {/* Attendance Table */}
-        <Card title="Recent Attendance Records">
-          <Table
-            dataSource={attendanceData}
-            columns={columns}
-            pagination={{ pageSize: 10 }}
-          />
-        </Card>
-      </PageHeaderLayout>
+    <div>
+      {/* Attendance Table */}
+      <Card title="Recent Attendance Records">
+        <PageTable
+          columns={columns}
+          data={attendanceData}
+          actions={actions}
+          rowKey="id"
+          showActions={true}
+          pagination={{
+            pageSize: 10,
+            showSizeChanger: true,
+            showQuickJumper: true,
+            showTotal: (total, range) =>
+              `${range[0]}-${range[1]} of ${total} records`,
+          }}
+        />
+      </Card>
     </div>
   );
 };
