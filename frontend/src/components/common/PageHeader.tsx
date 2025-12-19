@@ -19,15 +19,16 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
         marginTop: "1rem",
       }}
-      bodyStyle={{ padding: "2rem" }}
     >
       <Title
         level={1}
         style={{
           color: "white",
           margin: 0,
+          fontSize: "1.4rem",
+
           textShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-          marginBottom: subtitle ? "0.5rem" : 0,
+          marginBottom: subtitle ? "0.2rem" : 0,
         }}
       >
         {title}
@@ -36,7 +37,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
         <Text
           style={{
             color: "rgba(255, 255, 255, 0.9)",
-            fontSize: "1.2rem",
+            fontSize: "0.7rem",
             display: "block",
             textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
           }}

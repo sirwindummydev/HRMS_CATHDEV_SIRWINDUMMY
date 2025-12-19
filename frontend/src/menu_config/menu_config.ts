@@ -414,6 +414,12 @@ export const menuConfig = [
             path: "/employee-management/self-service/payslips",
           },
           {
+            key: "holidays",
+            title: "Holidays",
+            icon: InboxOutlined,
+            path: "/employee-management/self-service/holidays",
+          },
+          {
             key: "my-training-view",
             title: "My Training",
             icon: BuildOutlined,
@@ -606,6 +612,11 @@ export const routeToKeyMap: Record<string, { selected: string; open: string }> =
     "/employee-management/offboarding/clearance": {
       selected: "clearance-process",
       open: "offboarding",
+    },
+    // Holidays Setup
+    "/employee-management/setup/holidays": {
+      selected: "holidays",
+      open: "employee-setup",
     },
 
     // Employee Setup
