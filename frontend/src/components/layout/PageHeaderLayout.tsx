@@ -27,7 +27,7 @@ const PageHeaderLayout: React.FC<PageHeaderLayoutProps> = ({
   children,
 }) => {
   return (
-    <div style={{ padding: 15 }}>
+    <div style={{ padding: 0 }}>
       {/* Header Section with Title and Add Button */}
       <Row justify="space-between" align="middle">
         <Col flex="auto">

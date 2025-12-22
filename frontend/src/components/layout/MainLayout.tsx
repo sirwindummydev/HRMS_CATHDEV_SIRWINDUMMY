@@ -7,6 +7,8 @@ const contentStyle = {
   flex: 1,
   padding: "24px",
   background: "#f5f5f5",
+  minHeight: "calc(100vh - 64px)",
+  overflow: "auto",
 };
 
 function MainLayout() {
@@ -17,7 +19,7 @@ function MainLayout() {
       style={{
         display: "flex",
         minHeight: "100vh",
-        width: "100vw",
+        overflow: "hidden",
       }}
     >
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -26,7 +28,8 @@ function MainLayout() {
           flex: 1,
           marginLeft: collapsed ? 80 : 250,
           transition: "margin-left 0.3s ease",
-          width: `calc(100vw - ${collapsed ? 80 : 250}px)`,
+          maxWidth: `calc(100% - ${collapsed ? 80 : 250}px)`,
+          overflow: "hidden",
         }}
       >
         <Header />

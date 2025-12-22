@@ -16,6 +16,25 @@ interface SummaryCardProps {
   color?: string;
   loading?: boolean;
   onClick?: () => void;
+  /**
+   * Preset sizes: 'small' | 'default' | 'large'
+   */
+  size?: "small" | "default" | "large";
+  /**
+   * Optional granular overrides for typography and icon sizing.
+   */
+  sizeConfig?: Partial<{
+    titleSize: number;
+    titleWeight: number;
+    valueSize: number;
+    valueWeight: number;
+    iconSize: number;
+    iconPadding: number;
+    trendFontSize: number;
+    trendIconSize: number;
+  }>;
+  /** Optional explicit card width (number for px or CSS string) */
+  cardWidth?: number | string;
 }
 
 const SummaryCard: React.FC<SummaryCardProps> = ({
@@ -26,12 +45,57 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
   color = "#fa8c16",
   loading = false,
   onClick,
+  size = "default",
+  sizeConfig = {},
+  cardWidth,
 }) => {
+  // preset mappings
+  const presets: Record<"small" | "default" | "large", any> = {
+    small: {
+      titleSize: 12,
+      titleWeight: 500,
+      valueSize: 16,
+      valueWeight: 600,
+      iconSize: 16,
+      iconPadding: 6,
+      trendFontSize: 11,
+      trendIconSize: 12,
+      //   cardWidth: number | "100%" ,
+    },
+    default: {
+      titleSize: 14,
+      titleWeight: 500,
+      valueSize: 22,
+      valueWeight: 700,
+      iconSize: 18,
+      iconPadding: 8,
+      trendFontSize: 12,
+      trendIconSize: 14,
+    },
+    large: {
+      titleSize: 16,
+      titleWeight: 600,
+      valueSize: 28,
+      valueWeight: 800,
+      iconSize: 24,
+      iconPadding: 10,
+      trendFontSize: 13,
+      trendIconSize: 16,
+    },
+  };
+
+  const cfg = { ...presets[size], ...sizeConfig };
+
   const getTrendIcon = (type: "up" | "down") => {
+    const styleBase: React.CSSProperties = {
+      color: type === "up" ? "#52c41a" : "#ff4d4f",
+      fontSize: cfg.trendIconSize,
+    };
+
     return type === "up" ? (
-      <ArrowUpOutlined style={{ color: "#52c41a" }} />
+      <ArrowUpOutlined style={styleBase} />
     ) : (
-      <ArrowDownOutlined style={{ color: "#ff4d4f" }} />
+      <ArrowDownOutlined style={styleBase} />
     );
   };
 
@@ -49,6 +113,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
         border: "1px solid #f0f0f0",
         boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
         cursor: onClick ? "pointer" : "default",
+        ...(cardWidth !== undefined ? { width: cardWidth } : { width: "100%" }),
       }}
       // bodyStyle={{ padding: "20px" }}
       styles={{
@@ -61,20 +126,36 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
           align="center"
           style={{ width: "100%", justifyContent: "space-between" }}
         >
-          <Text type="secondary" style={{ fontSize: 14, fontWeight: 500 }}>
+          <Text
+            type="secondary"
+            style={{ fontSize: cfg.titleSize, fontWeight: cfg.titleWeight }}
+          >
             {title}
           </Text>
           <div
             style={{
               background: `${color}15`,
               borderRadius: 8,
-              padding: 8,
+              padding: cfg.iconPadding,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <div style={{ color, fontSize: 18 }}>{icon}</div>
+            {React.isValidElement(icon) ? (
+              (() => {
+                const el = icon as React.ReactElement<any>;
+                const originalStyle = (el.props && el.props.style) || {};
+                const mergedStyle: React.CSSProperties = {
+                  ...originalStyle,
+                  color,
+                  fontSize: cfg.iconSize,
+                };
+                return React.cloneElement(el, { style: mergedStyle });
+              })()
+            ) : (
+              <div style={{ color, fontSize: cfg.iconSize }}>{icon}</div>
+            )}
           </div>
         </Space>
 
@@ -91,8 +172,8 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
             level={2}
             style={{
               margin: 0,
-              fontSize: 28,
-              fontWeight: 700,
+              fontSize: cfg.valueSize,
+              fontWeight: cfg.valueWeight,
               color: "#262626",
             }}
           >
@@ -107,7 +188,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
                 <Text
                   style={{
                     color: getTrendColor(trend.type),
-                    fontSize: 12,
+                    fontSize: cfg.trendFontSize,
                     fontWeight: 500,
                   }}
                 >
@@ -115,7 +196,10 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
                   {trend.value}%
                 </Text>
                 {trend.label && (
-                  <Text type="secondary" style={{ fontSize: 12 }}>
+                  <Text
+                    type="secondary"
+                    style={{ fontSize: cfg.trendFontSize }}
+                  >
                     {trend.label}
                   </Text>
                 )}
