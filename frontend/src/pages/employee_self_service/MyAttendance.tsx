@@ -9,6 +9,7 @@ import {
   HomeOutlined,
   CloseCircleOutlined,
   WarningOutlined,
+  ExclamationOutlined,
 } from "@ant-design/icons";
 import PageHeaderLayout from "../../components/layout/PageHeaderLayout";
 import SummaryCard from "../../components/layout/SummaryCard";
@@ -18,8 +19,32 @@ import type {
   TableAction,
 } from "../../components/common/PageTable";
 import { Card, Row, Col } from "antd";
+import CustomCalendar from "../../components/common/CustomCalendar";
 
-const MyAttendance: React.FC = () => {
+type SummarySize = "small" | "default" | "large";
+
+type SummarySizeConfig = Partial<{
+  titleSize: number;
+  titleWeight: number;
+  valueSize: number;
+  valueWeight: number;
+  iconSize: number;
+  iconPadding: number;
+  trendFontSize: number;
+  trendIconSize: number;
+}>;
+
+interface MyAttendanceProps {
+  summarySize?: SummarySize;
+  summarySizeConfig?: SummarySizeConfig;
+  summaryCardWidth?: number | string;
+}
+
+const MyAttendance: React.FC<MyAttendanceProps> = ({
+  summarySize = "default",
+  summarySizeConfig,
+  summaryCardWidth,
+}) => {
   const handleClockIn = () => {
     console.log("Clock in clicked!");
   };
@@ -63,22 +88,22 @@ const MyAttendance: React.FC = () => {
       },
     },
 
-    {
-      key: "hours",
-      title: "Hours Worked",
-      dataIndex: "hours",
-      width: 120,
-      align: "center",
-      render: (hours) => `${hours} hrs`,
-    },
-    {
-      key: "overtime",
-      title: "Overtime",
-      dataIndex: "overtime",
-      width: 120,
-      align: "center",
-      render: (overtime) => (overtime ? `${overtime} hrs` : "-"),
-    },
+    // {
+    //   key: "hours",
+    //   title: "Hours Worked",
+    //   dataIndex: "hours",
+    //   width: 120,
+    //   align: "center",
+    //   render: (hours) => `${hours} hrs`,
+    // },
+    // {
+    //   key: "overtime",
+    //   title: "Overtime",
+    //   dataIndex: "overtime",
+    //   width: 120,
+    //   align: "center",
+    //   render: (overtime) => (overtime ? `${overtime} hrs` : "-"),
+    // },
     {
       key: "status",
       title: "Status",
@@ -95,21 +120,21 @@ const MyAttendance: React.FC = () => {
   ];
 
   // Define actions for demonstration
-  const actions = [
-    {
-      type: "view" as const,
-      onClick: (record: any) => {
-        console.log("View attendance record:", record);
-      },
-    },
-    {
-      type: "edit" as const,
-      onClick: (record: any) => {
-        console.log("Edit attendance record:", record);
-      },
-      show: (record: any) => record.status !== "Absent", // Only show edit for non-absent records
-    },
-  ];
+  // const actions = [
+  //   {
+  //     type: "view" as const,
+  //     onClick: (record: any) => {
+  //       console.log("View attendance record:", record);
+  //     },
+  //   },
+  //   {
+  //     type: "edit" as const,
+  //     onClick: (record: any) => {
+  //       console.log("Edit attendance record:", record);
+  //     },
+  //     show: (record: any) => record.status !== "Absent", // Only show edit for non-absent records
+  //   },
+  // ];
   const attendanceData = [
     {
       id: 1,
@@ -156,14 +181,170 @@ const MyAttendance: React.FC = () => {
   return (
     <div>
       {/* Attendance Table */}
-      <PageHeaderLayout
-        title="Attendance Records"
+      {/* <PageHeaderLayout
+        title="My Attendance Records"
         subtitle="View your recent attendance details"
-      ></PageHeaderLayout>
+      /> */}
+
+      <Row gutter={[24, 16]} style={{ marginBottom: 24 }}>
+        <Col span={24}>
+          <div
+            style={{
+              paddingBottom: 8,
+              borderBottom: "1px solid #f0f0f0",
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                marginBottom: 0,
+                fontSize: 20,
+                fontWeight: 600,
+                color: "#262626",
+              }}
+            >
+              My Attendance Records
+            </h2>
+            <span
+              style={{
+                fontSize: 14,
+                color: "#8c8c8c",
+              }}
+            >
+              View attendance details and summaries
+            </span>
+          </div>
+        </Col>
+      </Row>
+
+      <Row gutter={[24, 16]} style={{ marginBottom: 24 }}>
+        {/* Left: Summary Cards (2x2 grid) */}
+        <Col xs={24} sm={24} md={12}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <SummaryCard
+                title="Total present"
+                value="22 days"
+                icon={<CalendarOutlined />}
+                color="#52c41a"
+                size={summarySize}
+                sizeConfig={summarySizeConfig}
+              />
+            </Col>
+            <Col xs={24} sm={12}>
+              <SummaryCard
+                title="Total Lates"
+                value="5 days"
+                icon={<ClockCircleOutlined style={{ color: "#faad14" }} />}
+                color="#faad14"
+                size={summarySize}
+                sizeConfig={summarySizeConfig}
+              />
+            </Col>
+            <Col xs={24} sm={12}>
+              <SummaryCard
+                title="Total Absences"
+                value="2 days"
+                icon={
+                  <ExclamationCircleOutlined style={{ color: "#ff4d4f" }} />
+                }
+                color="#ff4d4f"
+                size={summarySize}
+                sizeConfig={summarySizeConfig}
+              />
+            </Col>
+            <Col xs={24} sm={12}>
+              <SummaryCard
+                title="Overtime hours"
+                value="12 hrs"
+                icon={<ThunderboltOutlined />}
+                color="#fa8c16"
+                size={summarySize}
+                sizeConfig={summarySizeConfig}
+              />
+            </Col>
+            <Col xs={24} sm={12}>
+              <SummaryCard
+                title="Leave Balance"
+                value="5 days"
+                icon={<CoffeeOutlined />}
+                color="#fa8c16"
+                size={summarySize}
+                sizeConfig={summarySizeConfig}
+              />
+            </Col>
+            <Col xs={24} sm={12}>
+              <SummaryCard
+                title="Overtime hours"
+                value="12 hrs"
+                icon={<ThunderboltOutlined />}
+                color="#fa8c16"
+                size={summarySize}
+                sizeConfig={summarySizeConfig}
+              />
+            </Col>
+          </Row>
+        </Col>
+
+        {/* Right: Calendar */}
+        <Col xs={24} sm={24} md={12}>
+          <CustomCalendar
+            card
+            events={[
+              {
+                date: "2025-12-19",
+                status: "present",
+                color: "#52c41a",
+              },
+              {
+                date: "2025-12-18",
+                status: "present",
+                color: "#52c41a",
+              },
+              {
+                date: "2025-12-17",
+                status: "late",
+                color: "#fa8c16",
+              },
+              {
+                date: "2025-12-16",
+                status: "absent",
+                color: "#ff4d4f",
+              },
+              {
+                date: "2025-12-13",
+                status: "present",
+                color: "#52c41a",
+              },
+              {
+                date: "2025-12-12",
+                status: "half-day",
+                color: "#faad14",
+              },
+              {
+                date: "2025-12-11",
+                status: "present",
+                color: "#52c41a",
+              },
+              {
+                date: "2025-12-10",
+                status: "present",
+                color: "#52c41a",
+              },
+              {
+                date: "2025-12-09",
+                status: "late",
+                color: "#fa8c16",
+              },
+            ]}
+            onSelectDate={(date) => console.log("Selected date:", date)}
+          />
+        </Col>
+      </Row>
       <PageTable
         columns={columns}
         data={attendanceData}
-        actions={actions}
+        // actions={actions}
         rowKey="id"
         showActions={true}
         pagination={{

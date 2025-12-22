@@ -183,7 +183,7 @@ const PageTable: React.FC<PageTableProps> = ({
   }
 
   return (
-    <div style={{ paddingLeft: 15, paddingRight: 15 }}>
+    <div>
       {" "}
       <Card
         title="Recent Attendance Records"
