@@ -135,15 +135,27 @@ const MyAttendance: React.FC<MyAttendanceProps> = ({
   //     show: (record: any) => record.status !== "Absent", // Only show edit for non-absent records
   //   },
   // ];
-  const attendanceData = [
+
+  interface AttendanceDataProps {
+    id: number;
+    date: string;
+    clockIn: string;
+    clockOut: string;
+    status: "Present" | "Absent" | "Late";
+    hours: number;
+    overtime: number;
+    attendanceType: string;
+  }
+
+  const attendanceData: AttendanceDataProps[] = [
     {
       id: 1,
       date: "2025-12-19",
       clockIn: "09:00 AM",
       clockOut: "05:00 PM",
       status: "Present",
-      hours: "8.0",
-      overtime: "1.0",
+      hours: 8.0,
+      overtime: 1.0,
       attendanceType: "Office",
     },
     {
@@ -151,9 +163,9 @@ const MyAttendance: React.FC<MyAttendanceProps> = ({
       date: "2025-12-18",
       clockIn: "09:15 AM",
       clockOut: "05:15 PM",
-      status: "Present",
-      hours: "8.0",
-      overtime: "0.5",
+      status: "Late",
+      hours: 8.0,
+      overtime: 0.5,
       attendanceType: "Official Business",
     },
     {
@@ -162,8 +174,8 @@ const MyAttendance: React.FC<MyAttendanceProps> = ({
       clockIn: "09:30 AM",
       clockOut: "05:30 PM",
       status: "Late",
-      hours: "8.0",
-      overtime: "0.0",
+      hours: 8.0,
+      overtime: 0.0,
       attendanceType: "Office",
     },
     {
@@ -172,8 +184,8 @@ const MyAttendance: React.FC<MyAttendanceProps> = ({
       clockIn: "-",
       clockOut: "-",
       status: "Absent",
-      hours: "0.0",
-      overtime: null,
+      hours: 0.0,
+      overtime: 0,
       attendanceType: "Office",
     },
   ];
@@ -344,6 +356,7 @@ const MyAttendance: React.FC<MyAttendanceProps> = ({
       <PageTable
         columns={columns}
         data={attendanceData}
+        title="My Recent Attendace"
         // actions={actions}
         rowKey="id"
         showActions={true}
