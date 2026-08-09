@@ -411,7 +411,7 @@ export const menuConfig = [
             key: "my-payslips",
             title: "My Payslips",
             icon: InboxOutlined,
-            path: "/employee-management/self-service/payslips",
+            path: "/employee-management/self-service/mypayslips",
           },
           {
             key: "holidays",

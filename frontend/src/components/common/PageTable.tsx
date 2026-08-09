@@ -36,10 +36,13 @@ export interface DynamicTableColumn {
   };
 }
 
-export interface PageTableProps
-  extends Omit<TableProps<any>, "columns" | "dataSource"> {
+export interface PageTableProps extends Omit<
+  TableProps<any>,
+  "columns" | "dataSource" | "title"
+> {
   columns: DynamicTableColumn[];
   data: any[];
+  title?: string;
   actions?: TableAction[];
   loading?: boolean;
   pagination?: TableProps<any>["pagination"];
@@ -53,6 +56,7 @@ export interface PageTableProps
 const PageTable: React.FC<PageTableProps> = ({
   columns,
   data,
+  title,
   actions = [],
   loading = false,
   pagination = true,
@@ -94,7 +98,7 @@ const PageTable: React.FC<PageTableProps> = ({
         ([key, config]) => ({
           text: config.label || key,
           value: key,
-        })
+        }),
       );
       antdCol.onFilter = (value: any, record: any) =>
         record[col.dataIndex || col.key] === value;
@@ -185,10 +189,7 @@ const PageTable: React.FC<PageTableProps> = ({
   return (
     <div>
       {" "}
-      <Card
-        title="Recent Attendance Records"
-        style={{ paddingLeft: 15, paddingRight: 15 }}
-      >
+      <Card title={title} style={{ paddingLeft: 15, paddingRight: 15 }}>
         <Table
           columns={antdColumns}
           dataSource={data}

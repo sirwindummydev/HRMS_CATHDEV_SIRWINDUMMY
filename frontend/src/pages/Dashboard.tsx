@@ -9,6 +9,51 @@ import {
 } from "@ant-design/icons";
 import SummaryCard from "../components/layout/SummaryCard";
 
+//ts shape declaration
+interface SummaryCardDataItem {
+  title: string;
+  value: string;
+  icon: React.ComponentType;
+  trend: {
+    value: number;
+    type: "up" | "down";
+    label?: string;
+  };
+  color: string;
+}
+
+// sample data of the summary cards to map, replace with the fetched value with the same structure once axios is active
+const summaryCardData: SummaryCardDataItem[] = [
+  {
+    title: "Total Records",
+    value: "5,678",
+    icon: InboxOutlined,
+    trend: { value: 8, type: "up", label: "vs last month" },
+    color: "#52c41a",
+  },
+  {
+    title: "Total Records",
+    value: "5,678",
+    icon: InboxOutlined,
+    trend: { value: 8, type: "down", label: "vs last month" },
+    color: "#52c41a",
+  },
+  {
+    title: "Total Records",
+    value: "5,678",
+    icon: InboxOutlined,
+    trend: { value: 8, type: "up", label: "vs last month" },
+    color: "#52c41a",
+  },
+  {
+    title: "Total Records",
+    value: "5,678",
+    icon: InboxOutlined,
+    trend: { value: 8, type: "up", label: "vs last month" },
+    color: "#52c41a",
+  },
+];
+
 const { Title } = Typography;
 const Dashboard = () => {
   useEffect(() => {
@@ -20,6 +65,7 @@ const Dashboard = () => {
       localStorage.removeItem("showWelcome");
     }
   }, []);
+
   return (
     <div style={{ padding: "24px" }}>
       <Space orientation="vertical" size="large" style={{ width: "100%" }}>
@@ -29,16 +75,18 @@ const Dashboard = () => {
         </Title>
         {/* Summary Cards */}
         <Row gutter={[16, 16]}>
-          <Col xs={24} sm={12} lg={6}>
-            <SummaryCard
-              title="Total Requests"
-              value="5,678"
-              icon={<InboxOutlined />}
-              trend={{ value: 8, type: "up", label: "vs last month" }}
-              color="#52c41a"
-            />
-          </Col>
-          <Col xs={24} sm={12} lg={6}>
+          {summaryCardData.map((item, index) => (
+            <Col xs={24} sm={12} lg={6} key={index}>
+              <SummaryCard
+                title={item.title}
+                value={item.value}
+                icon={<item.icon />}
+                trend={item.trend}
+                color={item.color}
+              />
+            </Col>
+          ))}
+          {/* <Col xs={24} sm={12} lg={6}>
             <SummaryCard
               title="Pending Requests"
               value="45"
@@ -65,7 +113,7 @@ const Dashboard = () => {
               trend={{ value: -3, type: "down", label: "vs last week" }}
               color="#fa8c16"
             />
-          </Col>
+          </Col> */}
         </Row>
         {/* Additional Cards Row */}
       </Space>

@@ -7,6 +7,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import MyAttendance from "./pages/employee_self_service/MyAttendance";
 import HolidaysLayout from "./components/layout/HolidaysLayout";
 import MyProfile from "./pages/employee_self_service/MyProfile";
+import MyPayslip from "./pages/employee_self_service/MyPayslips";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -29,6 +30,10 @@ function App() {
               <Route
                 path="/employee-management/self-service/attendance"
                 element={<MyAttendance />}
+              />
+              <Route
+                path="/employee-management/self-service/mypayslips"
+                element={<MyPayslip />}
               />
               <Route
                 path="/employee-management/self-service/profile"
